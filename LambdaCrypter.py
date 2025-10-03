@@ -51,7 +51,7 @@ async def encrypt(ctx):
     """Encrypt files in current directory (USE WITH CAUTION)"""
     
     # Safety check
-    SAFE_FOLDER = "Lambda Crypter"
+    SAFE_FOLDER = "Lambda-Crypter"
     current_folder = os.path.basename(os.getcwd())
     
     if current_folder != SAFE_FOLDER:
@@ -206,9 +206,10 @@ if __name__ == "__main__":
     # 2. REPLACE WITH YOUR BOT TOKEN!
     
     print("🚀 Starting LambdaCrypterBot...")
-    print("⚠️  Make sure you are in the 'bot_lambda_test' folder!")
+    print("⚠️  Make sure you are in the 'Lambda-Crypter' folder!")
     
     try:
         bot.run('Your_Bot_Token_Here')  # ⚠️ Replace with your bot token
     except Exception as e:
+
         print(f"❌ Error: {e}")

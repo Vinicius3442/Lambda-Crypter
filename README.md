@@ -1,7 +1,6 @@
 # LambdaCrypter — Ferramenta Educacional de Ransomware
 
 ![Banner do Projeto (Em desenvolvimento)](./img/banner.png)
-*Imagem placeholder - banner em desenvolvimento*
 
 ## Status do Projeto
 

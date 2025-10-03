@@ -30,7 +30,7 @@ O **LambdaCrypter** é uma ferramenta educacional avançada projetada para simul
 
 Utilizando um bot do Discord como canal de Comando e Controle (C2), o LambdaCrypter replica a arquitetura de ataques cibernéticos modernos, oferecendo um ambiente seguro para estudos em criptografia aplicada, detecção de ameaças e resposta a incidentes.
 
-**Objetivo de desenvolvimento:** Aprimorar a ferramenta em cada devlog, tornando-a cada vez mais robusta.
+**Objetivo de desenvolvimento:** Aprimorar a ferramenta tornando-a cada vez mais robusta.
 
 ---
 
@@ -103,20 +103,37 @@ Por isso, ferramentas educacionais controladas — que simulam TTPs (Técnicas, 
 ---
 
 ## Guia de Configuração Rápida
-![Home Discord DEV Portal](./img/homediscordDEV.jpg)
-**Home do portal de desenvolvedor do Discord**
+![Home Discord DEV Portal](./img/homediscordDEV.jpg)  
+**Figura 1 – Tela inicial do [Discord Developer Portal](https://discord.com/developers)**
+
 ### 1. Pré-requisitos
 - Conta no [Discord Developer Portal](https://discord.com/developers)
-- Python instalado no pc
-- **Fortemente recomendado:** Máquina virtual para segurança
+- Python instalado no computador
+- Biblioteca `discord.py` instalada (`pip install discord.py`)
+- Biblioteca `cryptography` instalada (`pip install cryptography`)
+- **Fortemente recomendado:** Executar em uma **máquina virtual** ou ambiente isolado para segurança
 
-### 2. Configurar Bot Discord
-1. Criar aplicação no Discord Developer Portal
-2. Criar bot e copiar token
-3. Habilitar Privileged Gateway Intents
-4. Gerar URL OAuth2 e adicionar ao servidor
+---
 
-## Considerações Éticas e Legais
+### 2. Criar e configurar o Bot no Discord
+1. Acesse o **Discord Developer Portal** e crie uma nova aplicação  
+2. Vá até a aba **Bot** → crie o bot e copie o **Token**  
+3. Em **Privileged Gateway Intents**, habilite todos os intents  
+4. Gere uma URL OAuth2 com permissões de bot e adicione o bot ao seu servidor  
+
+---
+
+### 3. Preparar o ambiente do projeto
+1. Crie uma pasta chamada **`Lambda-Crypter`** (⚠️ obrigatório)  
+2. Coloque nela o arquivo principal (`lambda_bot.py`) e os demais arquivos de teste que estão na pasta **`arquivos-exemplo`** que deseja usar **DEVEM ESTAR NA MESMA PÁGINA**
+3. O bot **só funcionará nessa pasta** **`Lambda-Crypter`**, garantindo que não afete outros diretórios por engano  
+
+---
+
+### 4. Configuração no código
+- Crie um arquivo `config.py` e edite os seguintes pontos:
+  - Substitua `self.owner_id = 1234` pelo seu **ID do Discord**  
+  - Substitua `'Your_Bot_Token_Here'` pelo **token do bot** gerado no Developer Portal  
 
 O **LambdaCrypter é estritamente uma ferramenta educacional.**
 

@@ -1,3 +1,4 @@
+# main.py
 import discord
 from discord.ext import commands
 import os
@@ -6,15 +7,25 @@ from cryptography.fernet import Fernet
 import base64
 from datetime import datetime
 
+# Import tokens
+try:
+    from config import OWNER_ID, BOT_TOKEN, SAFE_FOLDER
+except ImportError:
+    print("Erro: Arquivo config.py não encontrado!")
+    print("Crie o arquivo config.py com OWNER_ID, BOT_TOKEN e SAFE_FOLDER")
+    exit(1)
+
 class LambdaCrypterBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.all()
         super().__init__(command_prefix='!', intents=intents)
         self.encryption_key = None
-        self.owner_id = 1234  # ⚠️ Replace with your Discord ID
+        self.owner_id = OWNER_ID
         
     async def on_ready(self):
-        print(f'✅ Bot connected as {self.user}')
+        print(f'Bot conectado como {self.user}')
+        print(f'Owner ID: {self.owner_id}')
+        print(f'Pasta segura: {SAFE_FOLDER}')
         activity = discord.Activity(type=discord.ActivityType.watching, name="!help_cmd")
         await self.change_presence(activity=activity)
         
@@ -30,7 +41,7 @@ class LambdaCrypterBot(commands.Bot):
 
 bot = LambdaCrypterBot()
 
-# Bot Commands
+# Comandos do Bot (mantidos iguais)
 @bot.command()
 async def status(ctx):
     """Display system status"""
@@ -42,6 +53,7 @@ async def status(ctx):
 **Host:** {platform.node()}
 **Encryption Key:** {'🔑 Set' if bot.encryption_key else '❌ Not set'}
 **Owner ID:** {bot.owner_id}
+**Safe Folder:** {SAFE_FOLDER}
 **Send !help_cmd for commands**
 """
     await bot.send_embed(ctx.channel, "SYSTEM STATUS", status_msg, 0x3498db)
@@ -51,7 +63,6 @@ async def encrypt(ctx):
     """Encrypt files in current directory (USE WITH CAUTION)"""
     
     # Safety check
-    SAFE_FOLDER = "Lambda-Crypter"
     current_folder = os.path.basename(os.getcwd())
     
     if current_folder != SAFE_FOLDER:
@@ -76,7 +87,7 @@ async def encrypt(ctx):
     try:
         msg = await bot.wait_for('message', timeout=30.0, check=check)
     except:
-        await ctx.send("⏰ Timeout. Operation cancelled.")
+        await ctx.send("Timeout. Operation cancelled.")
         return
     
     if msg.content.upper() != 'CONFIRM':
@@ -123,7 +134,6 @@ async def decrypt(ctx, key: str):
     """Decrypt files with provided key: !decrypt YOUR_KEY"""
     
     # Safety check
-    SAFE_FOLDER = "Lambda Crypter"
     current_folder = os.path.basename(os.getcwd())
     
     if current_folder != SAFE_FOLDER:
@@ -172,7 +182,7 @@ async def decrypt(ctx, key: str):
 @bot.command()
 async def help_cmd(ctx):
     """Show available commands"""
-    help_msg = """
+    help_msg = f"""
 **Available Commands:**
 `!status` - System status
 `!encrypt` - Encrypt files (USE WITH CAUTION)
@@ -183,7 +193,7 @@ async def help_cmd(ctx):
 **Example:**
 `!decrypt gAAAAABmQ8b6aBfCk4eJz5r2x1vP8nYqL9wRtS7dFgHjKl3oMpNqAsZcXyVbEuIiKmO...`
 
-⚠️ **USE ONLY IN Lambda Crypter FOLDER!**
+⚠️ **USE ONLY IN {SAFE_FOLDER} FOLDER!**
 """
     await bot.send_embed(ctx.channel, "COMMAND HELP", help_msg, 0x9b59b6)
 
@@ -200,16 +210,12 @@ async def shutdown(ctx):
     await bot.close()
 
 if __name__ == "__main__":
-    
-    # BEFORE RUNNING:
-    # 1. REPLACE bot.owner_id WITH YOUR DISCORD ID!
-    # 2. REPLACE WITH YOUR BOT TOKEN!
-    
-    print("🚀 Starting LambdaCrypterBot...")
-    print("⚠️  Make sure you are in the 'Lambda-Crypter' folder!")
+    print("Starting LambdaCrypterBot...")
+    print(f"⚠️ Make sure you are in the '{SAFE_FOLDER}' folder!")
     
     try:
-        bot.run('Your_Bot_Token_Here')  # ⚠️ Replace with your bot token
+        bot.run(BOT_TOKEN)
+    except discord.LoginFailure:
+        print("❌ Invalid BOT_TOKEN in config.py")
     except Exception as e:
-
         print(f"❌ Error: {e}")
